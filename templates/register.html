@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Adduser
+{% endblock %}
+
+
+{% block main %}
+
+<div id="lo">
+    <form action="/register" method="post">
+        <div class="form-group log">
+            <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
+        </div>
+        <div class="form-group">
+            <input class="form-control" name="password" placeholder="Password" type="password">
+        </div>
+        <div class="form-group">
+            <input class="form-control" name="confirmation" placeholder="Password Again" type="password">
+        </div>
+        <button class="btn btn-primary" type="submit" id="sub-but">AddUser</button>
+
+
+    </form>
+
+</div>
+<div id="b">
+    <a href="/changepassword" class="mt-3 text-warning"> Click Here to Change Your Password</a>
+</div>
+
+{% endblock %}

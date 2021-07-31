@@ -1,0 +1,108 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Operations
+{% endblock %}
+
+{% block main %}
+<div class="bowl container">
+    <div>
+
+        <form action="/operations" method="post">
+            <div class="formdiv pd-0 container">
+                <input type="text" placeholder="Operation Name" autocomplete="off" name="operation_name" required>
+                <input type="text" placeholder="Location (Optional)" autocomplete="off" name="location">
+                <select name="sub_contractor">
+                    <option disabled selected value="Sub Contractor">Sub Contractor</option>
+                    {% for row in people %}
+                    <option value="{{row.name}}">{{row.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button class="btn btn-primary mb-2 ml-4">Add</button>
+
+        </form>
+
+    </div>
+</div>
+
+<div class="infoTable">
+    <table class="table table-hover table-striped container" id="Optable">
+        <thead class="thead-light">
+            <tr class="stickytop">
+                <div style="display: block;" class="container">
+                    <th scope="col" class="colnum">Search</th>
+                    <th class="ssmall"><input type="text" placeholder=" ID" id="opid"
+                            onkeyup="Search(this.id,'Optable','0')">
+                    </th>
+                    <th class="big">
+                        <input type="text" placeholder="Operation Name" id="opname"
+                            onkeyup="Search(this.id,'Optable','1')">
+                    </th>
+                    <th class="medium"><input type="text" placeholder="Location" id="oplcation"
+                            onkeyup="Search(this.id,'Optable','2')">
+                    </th>
+                    <th class="medium"><input type="text" placeholder="SubContractor" id="opsub"
+                            onkeyup="Search(this.id,'Optable','3')">
+                    </th>
+                    <th></th>
+                    <th></th>
+                </div>
+            </tr>
+            <tr class="stickybuffer">
+                <th scope="col"></th>
+                <th class="tx" scope="col">Id</th>
+                <th class="tx" scope="col">Operation Name</th>
+                <th class="tx" scope="col">Location</th>
+                <th class="tx" scope="col">SubContractor</th>
+                <th class="tx" scope="col" class="tdeledit">Edit</th>
+                <th class="tx" scope="col" class="tdeledit">Delete</th>
+
+            </tr>
+
+        </thead>
+        <tbody>
+            {% for row in operations %}
+            <tr>
+                <th scope="col"></th>
+                <td>{{row.id}}</td>
+                <td>{{row.op_name}}</td>
+                <td>{{row.location}}</td>
+                <td>{{row.sub_contractor}}</td>
+                <td><button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#modal{{row.id}}"
+                        aria-expanded="false" aria-controls="collapseExample">Edit</button></td>
+                <td>
+                    <form action="/edit_operations" method="POST">
+                        <input type="hidden" value={{row.id}} name="Odeleteid">
+                        <button class="btn-primary btn" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            <div>
+                <tr class="collapse" id="modal{{row.id}}">
+                    <form action="/edit_operations" method="POST">
+                        <td></td>
+                        <td><input type="hidden" value={{row.id}} name="editid"></td>
+                        <td><input type="text" placeholder="Operation Name" name="editop"></td>
+                        <td><input type="text" placeholder="Location" name="editlocation"></td>
+                        <td><select name="editsub">
+                                <option disabled selected value="Sub Contractor">Sub Contractor</option>
+                                {% for row in people %}
+                                <option value="{{row.name}}">{{row.name}}</option>
+                                {% endfor %}
+                            </select></td>
+                        <td><button class="btn-success btn">Submit</button></td>
+                        <td><button class="btn btn-secondary" type="button" data-toggle="collapse"
+                                data-target="#modal{{row.id}}" aria-expanded="false"
+                                aria-controls="collapseExample">Cancel</button></td>
+                    </form>
+                </tr>
+            </div>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+
+{% endblock %}

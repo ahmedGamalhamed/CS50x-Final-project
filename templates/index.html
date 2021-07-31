@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Home
+{% endblock %}
+
+
+{% block main %}
+<div class="con1">
+    <div class="full">
+        <div class="indexhalf">
+            <div class="container containerx1" id="b1">
+                <form action="/database" class="container-fluid d-flex">
+                    <button class="btn btn-block container-fluid">Database</button>
+                </form>
+            </div>
+            <div class="container containerx1" id="b2">
+
+                <form action="/operations" class="container-fluid d-flex">
+                    <button class="btn btn-block container-fluid">Operations</button>
+                </form>
+
+            </div>
+        </div>
+        <div class="indexhalf">
+            <div class="container containerx1" id="b3">
+
+                <form action="/employees" class="container-fluid d-flex">
+                    <button class="btn btn-block container-fluid">Employees</button>
+                </form>
+
+            </div>
+            <div class="container containerx1" id="b4">
+                <form action="/register" class="container-fluid d-flex">
+                    <button class="btn btn-block container-fluid">Users</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

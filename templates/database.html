@@ -1,0 +1,138 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Operations
+{% endblock %}
+
+{% block main %}
+<div>
+    <div class="bowl container-fluid">
+        <div>
+
+            <form action="/database" method="POST">
+                <div class="formdiv container-fluid">
+                    <select name="employee" required>
+                        <option disabled selected value="Employee">Employee</option>
+                        {% for row in people %}
+                        <option value="{{row.name}}">{{row.name}}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="text" placeholder="Description" required name="fdescription">
+                    <input type="number" min="0" placeholder="Cash" required name="fcash">
+                </div>
+                <div class="formdiv container-fluid">
+                    <select name="operation" required>
+                        <option disabled selected value="Operation">Operation</option>
+                        {% for row in operations %}
+                        <option value="{{row.op_name}}">{{row.op_name}}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="date" placeholder="Date" required name="fdate">
+                </div>
+                <button class="btn btn-primary mb-2 ml-4">Add</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div class=" infoTable container-fluid">
+
+    <table class="table table-hover table-striped container-fluid" id="Dbtable">
+        <thead class="thead-light">
+            <tr class="stickytop">
+
+                <th scope="col">Search</th>
+                <th class="ssmall"><input type="number" placeholder="Db Id" id="dbEid"
+                        onkeyup="Search(this.id,'Dbtable','0')">
+                </th>
+                <th class="ssmall"><input type="number" placeholder="Emp Id" id="EmpId"
+                        onkeyup="Search(this.id,'Dbtable','1')">
+                </th>
+                <th><input type="text" placeholder="Employee Name" id="dbEname" onkeyup="Search(this.id,'Dbtable','2')">
+                </th>
+                <th><input type="text" placeholder="Description" id="dbDes" onkeyup="Search(this.id,'Dbtable','3')">
+                </th>
+                <th><input type="text" placeholder="Cash" id="dbcash" onkeyup="Search(this.id,'Dbtable','4')"></th>
+                <th><input type="text" placeholder="Operation" id="dbop" onkeyup="Search(this.id,'Dbtable','5')">
+                </th>
+                <th colspan="3"><input type="text" placeholder="YY-MM-DD" id="dbdate"
+                        onkeyup="Search(this.id,'Dbtable','6')"></th>
+
+
+
+            </tr>
+            <tr class="stickybuffer" id=" header">
+                <th scope="col"></th>
+                <th class="tx" scope="col">ID</th>
+                <th class="tx" scope="col">Employee ID</th>
+                <th class="tx" scope="col">Employee Name</th>
+                <th class="tx" scope="col">Description</th>
+                <th class="tx" scope="col">Cash</th>
+                <th class="tx" scope="col">Operation Name</th>
+                <th class="tx" scope="col">Date</th>
+                <th class="tx" scope="col" class="tdeledit">Edit</th>
+                <th class="tx" scope="col" class="tdeledit">Delete</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            {% for row in dbbase %}
+            <tr>
+                <th scope="row"></th>
+                <td>{{row.id}}</td>
+                <td>{{row.employeeId}}</td>
+                <td>{{row.employee_name}}</td>
+                <td>{{row.description}}</td>
+                <td>${{row.cash}}</td>
+                <td>{{row.operation_name}}</td>
+                <td>{{row.timestamp}}</td>
+                <td><button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#modal{{row.id}}"
+                        aria-expanded="false" aria-controls="collapseExample">Edit</button></td>
+                <td>
+                    <form action="/edit_database" method="POST">
+                        <input type="hidden" value={{row.id}} name="Ddeleteid">
+                        <button class="btn-primary btn" type="submit">Delete</button>
+                    </form>
+                </td>
+
+            </tr>
+            <div>
+                <tr class="collapse" id="modal{{row.id}}">
+                    <form action="/edit_database" method="POST">
+                        <td></td>
+                        <td></td>
+                        <td><input type="hidden" value={{row.id}} name="editid"></td>
+                        <td><select name="editEmpName" required>
+                                <option disabled selected value="Employee">Employee</option>
+                                {% for row in people %}
+                                <option value="{{row.name}}">{{row.name}}</option>
+                                {% endfor %}
+                            </select></td>
+                        <td><input type="text" placeholder="Description" name="editDes"></td>
+                        <td><input type="number" min="0" placeholder="Cash" name="editCash"></td>
+                        <td><select name="editOpName" required>
+                                <option disabled selected value="Operation">Operation</option>
+                                {% for row in operations %}
+                                <option value="{{row.op_name}}">{{row.op_name}}</option>
+                                {% endfor %}
+                            </select></td>
+                        <td><input type="date" placeholder="Time" name="editTime"></td>
+                        <td><button class="btn-success btn">Submit</button></td>
+                        <td><button class="btn btn-secondary" type="button" data-toggle="collapse"
+                                data-target="#modal{{row.id}}" aria-expanded="false"
+                                aria-controls="collapseExample">Cancel</button></td>
+                    </form>
+                </tr>
+            </div>
+
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+
+{% endblock %}

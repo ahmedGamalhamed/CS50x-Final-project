@@ -1,0 +1,94 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Employee
+{% endblock %}
+
+
+{% block main %}
+<div class="bowl container">
+    <div>
+
+        <form action="/employees" method="POST">
+            <div class="formdiv pd-0 container">
+                <input type="text" placeholder="Name" autocomplete="off" name="name">
+                <input type="number" min="0" placeholder="Phone Number  (Optional)" autocomplete="off" name="phone">
+                <input type="text" placeholder="Job (Optional)" name="job">
+            </div>
+            <button class="btn btn-primary mb-2 ml-4">Add</button>
+        </form>
+
+    </div>
+</div>
+
+<div class="infoTable">
+    <table class="table table-hover table-striped container" id="EStable">
+        <thead class="thead-light">
+            <tr class="stickytop">
+                <div style="display: block;" class="container">
+                    <th scope="col" class="colnum">Search</th>
+                    <th class="ssmall"><input type="text" placeholder=" ID" id="eid"
+                            onkeyup="Search(this.id,'EStable','0')">
+                    </th>
+                    <th class="big">
+                        <input type="text" placeholder="Name" id="empnane" onkeyup="Search(this.id,'EStable','1')">
+                    </th>
+                    <th class="medium"><input type="number" placeholder="Phone" id="Empphone"
+                            onkeyup="Search(this.id,'EStable','2')">
+                    </th>
+                    <th class="medium"><input type="text" placeholder="Job" id="EmpJob"
+                            onkeyup="Search(this.id,'EStable','3')">
+                    </th>
+                    <th></th>
+                    <th></th>
+                </div>
+            </tr>
+            <tr class="stickybuffer">
+                <th scope="col"></th>
+                <th class="tx" scope="col">Id</th>
+                <th class="tx" scope="col">Name</th>
+                <th class="tx" scope="col">PhoneNumber</th>
+                <th class="tx" scope="col">Job</th>
+                <th class="tx" scope="col" class="tdeledit">Edit</th>
+                <th class="tx" scope="col" class="tdeledit">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in employees %}
+            <tr>
+                <th scope="col"></th>
+                <td>{{row.id}}</td>
+                <td>{{row.name}}</td>
+                <td>{{row.phone}}</td>
+                <td>{{row.Job}}</td>
+                <td><button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#modal{{row.id}}"
+                        aria-expanded="false" aria-controls="collapseExample">Edit</button></td>
+                <td>
+                    <form action="/edit_employees" method="POST">
+                        <input type="hidden" value={{row.id}} name="Edeleteid">
+                        <button class="btn-primary btn" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            <div>
+                <tr class="collapse" id="modal{{row.id}}">
+                    <form action="/edit_employees" method="POST">
+                        <td></td>
+                        <td><input type="hidden" value={{row.id}} name="editid"></td>
+                        <td><input type="text" placeholder="Name" name="editname"></td>
+                        <td><input type="number" min="0" placeholder="Phone Number" name="editphone"></td>
+                        <td><input type="text" placeholder="Job" name="editjob"></td>
+                        <td><button class="btn-success btn">Submit</button></td>
+                        <td><button class="btn btn-secondary" type="button" data-toggle="collapse"
+                                data-target="#modal{{row.id}}" aria-expanded="false"
+                                aria-controls="collapseExample">Cancel</button></td>
+                    </form>
+                </tr>
+            </div>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock %}
